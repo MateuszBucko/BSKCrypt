@@ -1,4 +1,4 @@
-import java.math.BigInteger;
+package crypt;
 
 /**
  * Created by Mateusz Bućko on 03.03.2017.
