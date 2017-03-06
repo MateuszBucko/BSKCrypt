@@ -5,8 +5,59 @@ package crypt;
  */
 public class Decrypting {
 
-    public static String fenceDecrypt(int numberOfRows, String textToEncrypt) {
-        return null;
+    public static String fenceDecrypt(int key, String text) {
+
+        //zienne pomocnicze do numeru wiersza , kolumny, aktualnego znaku
+        int rowNumber = 0, colNumber = 0, index = 0;
+
+        //zakodowany tekst
+        StringBuilder codedText = new StringBuilder(text.length());
+
+        //tablica kodująca
+        char[][] codedTab = new char[key][text.length()];
+
+        //domyslny kierunek przeglądania dół
+        boolean directionDown = true;
+
+
+        //wypelnienie tablicy znakami - znacznikami
+        for (int i = 0; i < key; i++)
+            for (int j = 0; j < text.length(); j++)
+                codedTab[i][j] = '\n';
+
+        //zaznaczenie miejsc gdzie będą znaki - poprzez gwiazdkę
+        for (int i = 0; i < text.length(); i++) {
+            if (rowNumber == 0) directionDown = true; // kierunek dol
+            if (rowNumber == key - 1) directionDown = false; // kierunek góra
+            codedTab[rowNumber][i] = '*';
+            if (directionDown) rowNumber++; // jak dol zwieksz wiersz
+            else rowNumber--; // jak góra zmniejsz wiersz
+        }
+
+        //wstawienie znaków w odpowiednie miejsca tabeli
+        for (int i = 0; i < key; i++)
+            for (int j = 0; j < text.length(); j++)
+                if (codedTab[i][j] == '*' && index < text.length())
+                    codedTab[i][j] = text.charAt(index++);
+
+        //resetujemy
+        rowNumber = 0;
+        colNumber = 0;
+
+
+        //przejście po tablicy i zczytanie właściwych znaków
+        for (int i = 0; i < text.length(); i++) {
+            if (rowNumber == 0) directionDown = true;
+            if (rowNumber == key - 1) directionDown = false;
+            if (codedTab[rowNumber][colNumber] != '*') {
+                codedText.append(codedTab[rowNumber][colNumber++]);
+
+            }
+            if (directionDown) rowNumber++;
+            else rowNumber--;
+        }
+
+        return codedText.toString();
     }
 
     public static String matrixDecryptA(String textToDecrypt) {
@@ -72,7 +123,7 @@ public class Decrypting {
                 answer = answer + kodowanie[i][j];
         }
 
-        return answer;
+        return answer.toString();
     }
 
     public static String matrixDecryptC(String textToDecrypt, String key) {

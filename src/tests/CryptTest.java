@@ -16,6 +16,7 @@ public class CryptTest {
         String textToCode = "CRYPTOGRAPHY";
         String codedText = Encrypting.fenceEncrypt(3, textToCode);
         Assert.assertEquals("CTARPORPYYGH", codedText);
+        Assert.assertEquals(textToCode,Decrypting.fenceDecrypt(3,codedText));
     }
 
     @Test
@@ -50,7 +51,7 @@ public class CryptTest {
         String key = "CONVENIENCE";
         String codedText = Encrypting.matrixEncryptB(textToCode, key);
         Assert.assertEquals("HECRNCEYIISEPSGDIRNTOAAESRMPNSSROEEBTETIAEEHS", codedText);
-        Assert.assertEquals(textToCode,Decrypting.matrixDecryptB(codedText,key));
+        Assert.assertEquals(textToCode, Decrypting.matrixDecryptB(codedText, key));
 
     }
 }
