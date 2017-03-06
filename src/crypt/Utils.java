@@ -6,12 +6,12 @@ package crypt;
 public class Utils {
     public static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    public static boolean nwdOne(int a,int b){
+    public static boolean nwdOne(int a, int b) {
         int nwd = 1;
-        for(int i=1; i<=a ; i++){
-            if(a%i == 0 && b%i == 0) nwd = i;
+        for (int i = 1; i <= a; i++) {
+            if (a % i == 0 && b % i == 0) nwd = i;
         }
-        if(nwd == 1) return true;
-        return  false;
+        if (nwd == 1) return true;
+        return false;
     }
 }
