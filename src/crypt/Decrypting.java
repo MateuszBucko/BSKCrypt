@@ -1,5 +1,8 @@
 package crypt;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Mateusz Bućko on 03.03.2017.
  */
@@ -60,9 +63,31 @@ public class Decrypting {
         return codedText.toString();
     }
 
-    public static String matrixDecryptA(String textToDecrypt) {
+    public static String matrixDecryptA(String textToDecrypt, int[] key) {
 
-        return null;
+        int matrixRows = textToDecrypt.length() % key.length > 0 ? (textToDecrypt.length() / key.length) + 1 : textToDecrypt.length() / key.length;
+        int matrixColumns = key.length;
+
+        char[][] matrix = new char[matrixRows][key.length];
+
+        StringBuilder decodedText = new StringBuilder(textToDecrypt.length());
+
+
+        for (int i = 0; i < matrixRows; i++) {
+            for (int j = 0; j < matrixColumns; j++) {
+                if (j + (i * key.length) <= textToDecrypt.length())
+                    if (j + (i * key.length) == textToDecrypt.length())
+                        matrix[i][(key[j] - 1)] = textToDecrypt.charAt(j-1 + i * key.length);
+                    else
+                        matrix[i][(key[j] - 1)] = textToDecrypt.charAt(j + i * key.length);
+            }
+        }
+        for (int i = 0; i < matrixRows; i++) {
+            for (int j = 0; j < matrixColumns; j++) {
+                decodedText.append(matrix[i][j]);
+            }
+        }
+        return decodedText.toString().substring(0,textToDecrypt.length());
     }
 
     public static String matrixDecryptB(String textToDecrypt, String key) {

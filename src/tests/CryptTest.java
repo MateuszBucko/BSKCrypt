@@ -38,10 +38,14 @@ public class CryptTest {
 
     @Test
     public void matrixATest() {
-        String textToCode = "CRYPTOGRAPHYOSA";
+        String textToCode = "ALAMAKOTA";
         int[] key = new int[]{3, 1, 4, 2};
         String codedText = Encrypting.matrixEncryptA(textToCode, key);
-        Assert.assertEquals("YCPRGTROHAYPAOS", codedText);
+        System.out.println(codedText);
+        Assert.assertEquals("AAMLOATKA", codedText);
+        String decodedText = Decrypting.matrixDecryptA(codedText,key);
+        System.out.println(decodedText);
+        Assert.assertEquals(textToCode,decodedText);
     }
 
     @Test
