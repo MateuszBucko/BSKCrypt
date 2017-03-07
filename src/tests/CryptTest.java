@@ -28,7 +28,11 @@ public class CryptTest {
     }
     @Test
     public void cesarBTest(){
-
+        String textToCode="ALAMAKOTA";
+        String codedText= Encrypting.cesarEncryptB(textToCode,3,7);
+        System.out.print(codedText);
+        Assert.assertEquals("DCDJDVXGD",codedText);
+        Assert.assertEquals(textToCode,Decrypting.cesarDecryptB("DCDJDVXGD",3,7));
     }
 
     @Test
@@ -45,10 +49,8 @@ public class CryptTest {
         String textToCode = "ALAMAKOTA";
         int[] key = new int[]{3, 1, 4, 2};
         String codedText = Encrypting.matrixEncryptA(textToCode, key);
-        System.out.println(codedText);
         Assert.assertEquals("AAMLOATKA", codedText);
         String decodedText = Decrypting.matrixDecryptA(codedText,key);
-        System.out.println(decodedText);
         Assert.assertEquals(textToCode,decodedText);
     }
 

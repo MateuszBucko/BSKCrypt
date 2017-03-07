@@ -1,5 +1,8 @@
 package crypt;
 
+import javax.rmi.CORBA.Util;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -266,12 +269,14 @@ public class Decrypting {
     }
 
     public static String cesarDecryptB(String textToDecrypt, int key0, int key1) {
-        int fi_26 = 9;
+        int fi_26 = 12;
         StringBuilder decryptedText = new StringBuilder(textToDecrypt.length());
         for (int i = 0; i < textToDecrypt.length(); i++) {
             //TODO: change to BigInt for bigger keys value!!!!
-            int index = (Utils.ALPHABET.indexOf(textToDecrypt.charAt(i)) + (Utils.ALPHABET.length() - key0)) * (int) Math.pow(key1, fi_26 - 1) % Utils.ALPHABET.length();
-            decryptedText.append(Utils.ALPHABET.charAt(index));
+            BigInteger pow = BigDecimal.valueOf(Math.pow(key1, fi_26 - 1)).toBigInteger();
+            BigInteger index = BigInteger.valueOf(( (Utils.ALPHABET.indexOf(textToDecrypt.charAt(i)) + (Utils.ALPHABET.length() - key0))  )).multiply(pow);
+            index = index.mod(BigInteger.valueOf(Utils.ALPHABET.length()));
+            decryptedText.append(Utils.ALPHABET.charAt(index.intValue()));
         }
 
         return decryptedText.toString();
