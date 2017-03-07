@@ -26,6 +26,10 @@ public class CryptTest {
         Assert.assertEquals("FUBSWRJUDSKB", codedText);
         Assert.assertEquals(textToCode, Decrypting.cesarDecryptA(codedText, 3));
     }
+    @Test
+    public void cesarBTest(){
+
+    }
 
     @Test
     public void vigenereTest() {
@@ -57,5 +61,13 @@ public class CryptTest {
         Assert.assertEquals("HECRNCEYIISEPSGDIRNTOAAESRMPNSSROEEBTETIAEEHS", codedText);
         Assert.assertEquals(textToCode, Decrypting.matrixDecryptB(codedText, key));
 
+    }
+    @Test
+    public  void  matrixCTest(){
+        String textToCode="HEREISASECRETMESSAGEENCIPHEREDBYTRANSPOSITION";
+        String key="CONVENIENCE";
+        String codedText = Encrypting.matrixEncryptC(textToCode,key);
+        Assert.assertEquals("HEESPNIRRSSEESEIYASCBTEMGEPNANDICTRTAHSOIEERO",codedText);
+        Assert.assertEquals(textToCode,Decrypting.matrixDecryptC("HEESPNIRRSSEESEIYASCBTEMGEPNANDICTRTAHSOIEERO",key));
     }
 }

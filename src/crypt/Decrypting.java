@@ -77,7 +77,7 @@ public class Decrypting {
             for (int j = 0; j < matrixColumns; j++) {
                 if (j + (i * key.length) <= textToDecrypt.length())
                     if (j + (i * key.length) == textToDecrypt.length())
-                        matrix[i][(key[j] - 1)] = textToDecrypt.charAt(j-1 + i * key.length);
+                        matrix[i][(key[j] - 1)] = textToDecrypt.charAt(j - 1 + i * key.length);
                     else
                         matrix[i][(key[j] - 1)] = textToDecrypt.charAt(j + i * key.length);
             }
@@ -87,7 +87,7 @@ public class Decrypting {
                 decodedText.append(matrix[i][j]);
             }
         }
-        return decodedText.toString().substring(0,textToDecrypt.length());
+        return decodedText.toString().substring(0, textToDecrypt.length());
     }
 
     public static String matrixDecryptB(String textToDecrypt, String key) {
@@ -152,8 +152,108 @@ public class Decrypting {
     }
 
     public static String matrixDecryptC(String textToDecrypt, String key) {
-        //TODO: impl
-        return null;
+        //Utworzenie klucza
+        int count = 0;
+        int[] klucz = new int[key.length()];
+
+        for (char let = 'A'; let <= 'Z'; ++let) {
+
+            for (int i = 0; i < key.length(); ++i) {
+
+                if (key.charAt(i) == let) {
+                    klucz[i] = count;
+                    ++count;
+                }
+            }
+        }
+
+
+        //licznik liter
+        int lettercounter = 0;
+
+        //licznik wierszy
+        int rows = 0;
+
+        //wspolrzedne dla kazdej litery
+        int[][] position = new int[textToDecrypt.length()][2];
+
+        while (lettercounter < textToDecrypt.length()) {
+
+            for (int i = 0; i < key.length(); ++i) {
+
+                for (int u = 0; u < key.length(); ++u) {
+
+                    if (i == klucz[u]) {
+
+                        for (int j = 0; j < u + 1; ++j) {
+
+                            if (lettercounter >= textToDecrypt.length())
+                                break;
+
+
+                            if (lettercounter < textToDecrypt.length()) {
+
+                                position[lettercounter][0] = rows;
+                                position[lettercounter][1] = j;
+                                ++lettercounter;
+                            }
+                        }//
+                        ++rows;
+                    }
+                }//drugi for
+            }//pierwszy for
+        }//konie while
+
+        char[][] ciphertable = new char[rows][key.length()];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < key.length(); ++j)
+                ciphertable[i][j] = ' ';
+        }
+
+
+        for (int i = 0; i < lettercounter; ++i) {
+
+            if (!(textToDecrypt.charAt(i) == ' '))
+                ciphertable[position[i][0]][position[i][1]] = '*';
+        }
+
+
+
+        int number = 0;
+        int actualIndex = 0;
+        String codedword = "";
+
+        for (int i = 0; i < key.length(); ++i) {
+
+            for (int k = 0; k < key.length(); ++k) {
+                if (klucz[k] == i)
+                    number = k;
+            }
+
+            for (int j = 0; j < rows; ++j) {
+                if (ciphertable[j][number] == '*') {
+                    ciphertable[j][number] = textToDecrypt.charAt(actualIndex);
+
+                    actualIndex++;
+
+                }
+                // codedword = codedword + ciphertable[j][number];
+            }
+        }
+
+
+
+        String answer = "";
+
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < key.length(); ++j)
+                if (ciphertable[i][j] != ' ')
+                    answer = answer + ciphertable[i][j];
+        }
+
+
+        return answer;
     }
 
     public static String cesarDecryptA(String textToDecrypt, int key) {

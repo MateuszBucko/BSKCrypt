@@ -142,8 +142,93 @@ public class Encrypting {
     }
 
     public static String matrixEncryptC(String textToEncrypt, String key) {
-        //TODO: impl
-        return null;
+    //Utworzenie klucza
+        int count = 0;
+        int[] klucz = new int[key.length()];
+
+        for (char let = 'A'; let <= 'Z'; ++let) {
+
+            for (int i = 0; i < key.length(); ++i) {
+
+                if (key.charAt(i) == let) {
+                    klucz[i] = count;
+                    ++count;
+                }
+            }
+        }
+
+
+        //licznik liter
+        int lettercounter = 0;
+
+        //licznik wierszy
+        int rows = 0;
+
+        //wspolrzedne dla kazdej litery
+        int[][] position = new int[textToEncrypt.length()][2];
+
+        while (lettercounter < textToEncrypt.length()) {
+
+            for (int i = 0; i < key.length(); ++i) {
+
+                for (int u = 0; u < key.length(); ++u) {
+
+                    if (i == klucz[u]) {
+
+                        for (int j = 0; j < u + 1; ++j) {
+
+                            if (lettercounter >= textToEncrypt.length())
+                                break;
+
+
+                            while (textToEncrypt.charAt(lettercounter) == ' ' && lettercounter < textToEncrypt.length())
+                                ++lettercounter;
+
+
+                            if (lettercounter < textToEncrypt.length()) {
+
+                                position[lettercounter][0] = rows;
+                                position[lettercounter][1] = j;
+                                ++lettercounter;
+                            }
+                        }//
+                        ++rows;
+                    }
+                }//drugi for
+            }//pierwszy for
+        }//koniec while
+
+        char[][] ciphertable = new char[rows][key.length()];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < key.length(); ++j)
+                ciphertable[i][j] = ' ';
+        }
+
+
+        for (int i = 0; i < lettercounter; ++i) {
+
+            if (!(textToEncrypt.charAt(i) == ' '))
+                ciphertable[position[i][0]][position[i][1]] = textToEncrypt.charAt(i);
+        }
+
+        int number = 0;
+        String codedword = "";
+
+        for (int i = 0; i < key.length(); ++i) {
+
+            for (int k = 0; k < key.length(); ++k) {
+                if (klucz[k] == i)
+                    number = k;
+            }
+
+            for (int j = 0; j < rows; ++j) {
+                if (!(ciphertable[j][number] == ' '))
+                    codedword = codedword + ciphertable[j][number];
+            }
+        }
+
+        return codedword;
     }
 
     public static String cesarEncryptA(String textToEncrypt, int key) {
