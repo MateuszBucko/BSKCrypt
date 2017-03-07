@@ -55,13 +55,12 @@ public class CryptTest {
     }
 
     @Test
-    @Ignore
     public void matrixBTest() {
         String textToCode = "HEREISASECRETMESSAGEENCIPHEREDBYTRANSPOSITION";
         String key = "CONVENIENCE";
         String codedText = Encrypting.matrixEncryptB(textToCode, key);
         Assert.assertEquals("HECRNCEYIISEPSGDIRNTOAAESRMPNSSROEEBTETIAEEHS", codedText);
-        Assert.assertEquals(textToCode, Decrypting.matrixDecryptB(codedText, key));
+        Assert.assertEquals(textToCode, Decrypting.matrixDecryptB(codedText, key).trim());
 
     }
     @Test

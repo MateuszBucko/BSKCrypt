@@ -151,7 +151,7 @@ public class Decrypting {
                 answer = answer + kodowanie[i][j];
         }
 
-        return answer.toString();
+        return answer;
     }
 
     public static String matrixDecryptC(String textToDecrypt, String key) {
